@@ -72,7 +72,7 @@ def insert_empl():
                         date_of_birth, salary,
                         related_department)
 
-        # flash("Employee inserted successfully")
+        # flash("Employee inserted successfully
         _temp = request.root_url
 
         return redirect(f'{_temp}select/{related_department}')

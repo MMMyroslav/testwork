@@ -5,6 +5,7 @@ from models.model import Department, Employee
 from service import db_service as db
 
 
+
 class ModuleTest(unittest.TestCase):
 
     def test_init_db(self):
@@ -60,6 +61,47 @@ class ModuleTest(unittest.TestCase):
     def test_dml_delete_Empl(self):
         temp = db.dml_delete_Empl(('id', 21))
         self.assertIs(temp, None)
+
+    def test_sel_Dep(self):
+        temp = db.dml_select_Dep_cur(('id', 1))
+        self.assertEqual(len(temp), 1)
+        self.assertEqual(str(type(temp[0])), "<class 'sqlalchemy.engine.row.Row'>")
+        self.assertTrue(temp[0][0].name)
+        self.assertTrue(temp[0][0].id)
+
+    def test_sel_Empl(self):
+        temp = db.dml_select_Empl_cur(('id', 2))
+        self.assertEqual(len(temp), 1)
+        self.assertEqual(str(type(temp[0])), "<class 'sqlalchemy.engine.row.Row'>")
+        self.assertTrue(temp[0][0].name)
+        self.assertTrue(temp[0][0].surname)
+
+    def test_sel_Empl_all(self):
+        temp = db.dml_select_Empl_all(2)
+
+        self.assertEqual(len(temp[0]), 2)
+        self.assertEqual(str(type(temp[0])), "<class 'sqlalchemy.engine.row.Row'>")
+        self.assertTrue(temp[0][0].name)
+        self.assertTrue(temp[0][0].surname)
+
+    def test_sel_Dep_all(self):
+        temp = db.dml_select_Dep_all()
+
+        self.assertEqual(len(temp[0]), 2)
+        self.assertEqual(str(type(temp[0])), "<class 'sqlalchemy.engine.row.Row'>")
+        self.assertTrue(temp[0].name)
+
+    def test_average_sal_count(self):
+        from App import average_sal_count
+        temp = average_sal_count(1)
+        self.assertIsInstance(float(temp), float)
+
+
+
+
+
+
+
 
 
 

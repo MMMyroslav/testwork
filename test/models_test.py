@@ -96,6 +96,10 @@ class ModuleTest(unittest.TestCase):
         temp = average_sal_count(1)
         self.assertIsInstance(float(temp), float)
 
+    def test_transform(self):
+        from App import transform
+        temp = transform('1-2-3')
+        self.assertEqual(temp, (1,2,3))
 
 
 

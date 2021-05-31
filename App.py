@@ -1,6 +1,6 @@
 from flask import Flask
 from const import SECRET_KEY
-from flask import request, render_template, flash, redirect, url_for
+from flask import request, render_template, redirect, url_for
 from service.db_service import *
 import decimal
 
@@ -71,8 +71,6 @@ def insert_empl():
         dml_insert_Empl(name, surname, mid_name,
                         date_of_birth, salary,
                         related_department)
-
-        # flash("Employee inserted successfully
         _temp = request.root_url
 
         return redirect(f'{_temp}select/{related_department}')
@@ -84,8 +82,6 @@ def insert():
         name = request.form['name']
 
         dml_insert_Dep(name)
-
-        # flash("Department inserted successfully")
 
         return redirect(url_for('index'))
 
@@ -104,8 +100,6 @@ def update():
                 if checked_data[attr] != temp:
                     dml_update_Dep(condition, (attr, temp))
 
-        # flash("Department updated successfully")
-
         return redirect(url_for('index'))
 
 
@@ -120,8 +114,6 @@ def update_empl():
             if temp:
                 if checked_data[attr] != temp:
                     dml_update_Empl(condition, (attr, temp))
-
-        # flash("Employee updated successfully")
 
         return redirect(url_for('index_empl',
                                 dep_id=checked_data.get('related_department')))

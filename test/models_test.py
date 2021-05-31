@@ -101,6 +101,9 @@ class ModuleTest(unittest.TestCase):
         temp = transform('1-2-3')
         self.assertEqual(temp, (1,2,3))
 
+    def test_insert_empl(self):
+        pass
+
 
 
 

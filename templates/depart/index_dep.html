@@ -1,0 +1,112 @@
+{% extends 'source/base.html' %}
+{% include 'source/header.html' %}
+{% include 'source/modul_add_dep.html' %}
+
+
+
+{% block body %}
+
+<div class="container">
+    <div class="row ">
+        <div class="col md-12">
+            <div class="container bg-light">
+            <p></p>
+              <h2>Manage <b> {{ title }} </b>  <button type="button"  class="btn btn-success float-end"
+                data-bs-toggle="modal" data-bs-target="#mymodal_dep">Add new {{ title[:-1]|lower }} </button> </h2>
+                <hr class="bg-black">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                              <strong>{{ message }}</strong>
+                              <button type="button" class="btn-close"
+                                      data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+            <div class="mx-auto">
+                <table class="table table-light float-center">
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Average salary</th>
+                        <th>Action</th>
+                    </tr>
+                   {% for row in data %}
+                    <tr >
+                        <td><strong>{{ loop.index }}</strong></td>
+                        <td><a href="select/{{ row }}"><strong>{{ data[row]['name'] }}</strong></a></td>
+                        <td><strong>{{ data[row]['salary'] }} UAH</strong></td>
+                        <td>
+                            <a href="update/{{ row }}"
+                               class="btn btn-warning btn-xs"
+                               data-bs-toggle="modal"
+                               data-bs-target="#modaledit{{ row }}">Edit</a>
+                            <a href="/delete_dep/{{ row }}"
+                               class="btn btn-danger btn-xs"
+                               onclick="return confirm('Are You Sure To Delete ?')">Delete</a>
+                        </td>
+                    </tr>
+
+                        <div class="modal fade" 
+                             id="modaledit{{ row }}" 
+                             tabindex="-1" 
+                             aria-labelledby="exampleModalLabel" 
+                             aria-hidden="true">
+                        
+                              <div class="modal-dialog">
+                                  
+                                <div class="modal-content">
+                                    
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Edit {{ title }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                    
+                                  <div class="modal-body">
+                                      <form action="{{ url_for('update') }}"
+                                            method="POST">
+
+                                          <div class="form-group">
+                                              <label>Name:</label>
+                                              <input type="hidden" name="id" value="{{ row }}">
+                                              <input type="text" class="form-control"
+                                                     name="name" required="1"
+                                                     value="{{ data[row]['name'] }}">
+                                          </div>
+
+                                            <p></p>
+                                            <div class="modal-footer-fluid">
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                                        <div class="col float-start">
+                                                             <button class="btn btn-primary float-start" type="submit">Edit {{ title[:-1]|lower }}</button>
+                                                        </div>
+                                                        <div class="col float-end">
+                                                             <button type="button" class="btn btn-secondary float-end" data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                      </form>
+
+                                  </div>
+
+                                </div>
+                              </div>
+                            </div>
+
+                   {% endfor %}
+                </table>
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

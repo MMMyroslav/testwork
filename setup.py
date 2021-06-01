@@ -1,7 +1,4 @@
 import decimal
-
-import function as function
-
 from models.init_db import init_db, engine
 from models.model import *
 from sqlalchemy.orm import Session
@@ -87,4 +84,8 @@ def start():
 #     related_department = 1
 # )
 
+
+d = ['1', '2', '3', '4']
+dd = sum(map(int, d))
+print(dd)
 

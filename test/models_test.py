@@ -5,7 +5,6 @@ from models.model import Department, Employee
 from service import db_service as db
 
 
-
 class ModuleTest(unittest.TestCase):
 
     def test_init_db(self):
@@ -103,15 +102,6 @@ class ModuleTest(unittest.TestCase):
 
     def test_insert_empl(self):
         pass
-
-
-
-
-
-
-
-
-
 
 
 if __name__ == '__main__':

@@ -5,6 +5,9 @@ from sqlalchemy.orm import relationship
 
 
 class MetaFields:
+    """
+    Base class
+    """
 
     id = Column(Integer, primary_key=True)
     name = Column(String(30), nullable=False, unique=True)

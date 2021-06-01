@@ -9,8 +9,14 @@ app.secret_key = SECRET_KEY
 
 
 def average_sal_count(ind):
+    """
+    Creates a sum of a map-object of integers, which are built from all instances
+    with current parameter department.id. Takes attribute 'salary' from instances
+    :param ind:  -> integer value of department.id
+    :return: string of average salary of employees in current department  for displaying in the main paige
+    """
     temp = dml_select_Empl_all_sal(ind)
-    numerator = sum(tuple(map(lambda i: i.salary, temp)))
+    numerator = sum(map(lambda i: i.salary, temp))
     denominator = len(temp)
     if not denominator:
         return 0
@@ -19,6 +25,11 @@ def average_sal_count(ind):
 
 @app.route('/')
 def index():
+    """
+    Represents the main page on the website
+    :return: html page with all departments, send parameters title -> str and
+    data -> dict for jinja2 rendering
+    """
     staff_temp = dml_select_Dep_all()
     staff = {}
     for i in staff_temp:
@@ -33,6 +44,12 @@ def index():
 
 @app.route('/select/<dep_id>')
 def index_empl(dep_id):
+    """
+    Shows all employees in current department
+    :param dep_id: it's a value of related department column in db.employee
+    :return:html page with all employees, send parameters title -> str and
+    data -> dict for jinja2 rendering
+    """
     staff_temp = dml_select_Empl_all(dep_id)
     staff = {}
     for i in staff_temp:
@@ -52,15 +69,23 @@ def index_empl(dep_id):
 
 
 def transform(data: str) -> list:
+    """
+    :param data: incoming request form from modal class of html-page
+    in format string - 'y-m-d'
+    :return: tuple of integers in format(y,m,d)
+    """
     temp = data.split('-')
 
     return tuple(map(int, temp))
 
 
-# this route is for inserting data to mysql
-# database via html forms
 @app.route('/insert_empl', methods=['POST'])
 def insert_empl():
+    """
+    This route is for inserting data to mysql
+    database via html forms
+    :return: redirect to changed department employees
+    """
     if request.method == 'POST':
         name = request.form['name']
         surname = request.form['surname']
@@ -78,6 +103,11 @@ def insert_empl():
 
 @app.route('/insert', methods=['POST'])
 def insert():
+    """
+    This route is for inserting data to mysql
+    database via html forms
+    :return: redirect to the main page
+    """
     if request.method == 'POST':
         name = request.form['name']
 
@@ -86,10 +116,13 @@ def insert():
         return redirect(url_for('index'))
 
 
-# this is our update route where we are going
-# to update our employee
 @app.route('/update', methods=['GET', 'POST'])
 def update():
+    """
+    This is update route where we are going
+    to update department name
+    :return: redirect to the main page
+    """
     if request.method == 'POST':
         condition = ('id', request.form.get('id'))
         checked_data = dml_select_Dep_cur(condition)[0][0].__dict__
@@ -105,6 +138,11 @@ def update():
 
 @app.route('/update_empl', methods=['GET', 'POST'])
 def update_empl():
+    """
+    This is update route where we are going
+    to update employee
+    :return:  redirect to changed department employees
+    """
     if request.method == 'POST':
         temp_id = request.form.get('related_department')
         condition = ('id', request.form.get('id'))
@@ -119,19 +157,27 @@ def update_empl():
                                 dep_id=checked_data.get('related_department')))
 
 
-# This route is for deleting our employee
 @app.route('/delete_dep/<id>/', methods=['GET', 'POST'])
 def delete_item(id):
+    """
+    This route is for deleting current department
+    :param id: department.id
+    :return:  redirect to the main page
+    """
     dml_delete_Dep(id)
-    # flash("Department deleted successfully")
 
     return redirect(url_for('index'))
 
 
 @app.route('/delete_empl/<id>/<dep_item>', methods=['GET', 'POST'])
 def delete_person(id, dep_item):
+    """
+    This route is for deleting current employee
+    :param id: employee.id
+    :param dep_item: auxiliary parameter for redirect
+    :return:  redirect to the main page
+    """
     dml_delete_Empl(('id', id))
-    # flash("Employee deleted successfully")
 
     return redirect(url_for('index_empl', dep_id=dep_item))
 

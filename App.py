@@ -195,7 +195,7 @@ def correct_date(var):
     return var
 
 
-def sort_data_def(db_data):
+def sort_data_def(db_data: dict) -> dict:
     temp1 = None
     if isinstance(db_data, str):
         temp1 = dml_sel_text(db_data)

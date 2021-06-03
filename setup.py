@@ -83,9 +83,41 @@ def start():
 #     salary = decimal.Decimal('3000.25'),
 #     related_department = 1
 # )
+#
+# from sqlalchemy.sql import text
+#
+# session = Session(engine)
+# # v = text('SELECT * FROM employee WHERE employee.date_of_birth = :x')
+# # v = dml_select_Empl_cur(('id', 2))
+# d = dml_select_Empl_cur(('date_of_birth', (2002,1,3)))
 
 
-d = ['1', '2', '3', '4']
-dd = sum(map(int, d))
-print(dd)
+# print(data)
 
+
+def correct_date(var):
+    if isinstance(var, str):
+        return '-'.join(tuple(map(str, tuple(map(int, var.split('-'))))))
+    for i in var:
+        var[i] = correct_date(var[i])
+    return var
+
+
+
+# # d = dml_sel_text_per(qwer)
+# print(qwer)
+# v = text(f'SELECT * FROM employee WHERE employee.date_of_birth BETWEEN :x AND :y')
+# data = session.execute(v, {'x': f'{qwer.get("from_date")}',
+#                            'y': f'{qwer.get("to_date")}'}
+#                        ).all()
+# session.close()
+#
+# pprint(data)
+
+# qwer = correct_date({'from_date': '1995-01-10', 'to_date': '2002-02-02'})
+# werq = dml_sel_text_per(qwer)
+# pprint(werq)
+
+
+rer = dml_select_Dep_cur(('id','1'))[0][0].name
+print(rer)

@@ -182,5 +182,60 @@ def delete_person(id, dep_item):
     return redirect(url_for('index_empl', dep_id=dep_item))
 
 
+def correct_date(var):
+    """
+    Remove leading zeros
+    :param var: str or tuple
+    :return: str or tuple without leading zeros in decimal integer literals
+    """
+    if isinstance(var, str):
+        return '-'.join(tuple(map(str, tuple(map(int, var.split('-'))))))
+    for i in var:
+        var[i] = correct_date(var[i])
+    return var
+
+
+def sort_data_def(db_data):
+    temp1 = None
+    if isinstance(db_data, str):
+        temp1 = dml_sel_text(db_data)
+    if isinstance(db_data, dict):
+        temp1 = dml_sel_text_per(db_data)
+    temp = {}
+    for j, i in enumerate(temp1):
+        temp = {j:
+            {
+                'id': i[0],
+                'name': i[1],
+                'surname': i[2],
+                'mid_name': i[3],
+                'date_of_birth': i[4],
+                'salary': i[5],
+                'related_department': i[6],
+                'dep_name': dml_select_Dep_cur(('id', str(i[6])))[0][0].name
+            }
+        }
+
+    return temp
+
+
+@app.route('/sort_empl', methods=['GET'])
+def sort_empl():
+    if request.method == 'GET':
+        sort_date = correct_date(request.args.get('date'))
+        temp = sort_data_def(sort_date)
+
+        return render_template('employ/index_empl.html', title='Employees', data=temp)
+
+
+@app.route('/sort_empl_per', methods=['GET'])
+def sort_empl_per():
+    if request.method == 'GET':
+        sorted_date = correct_date(request.args.to_dict())
+        temp = sort_data_def(sorted_date)
+
+        return render_template('employ/index_empl.html', title='Employees', data=temp)
+
+
 if __name__ == '__main__':
     app.run()

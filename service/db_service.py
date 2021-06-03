@@ -187,3 +187,24 @@ def dml_select_Dep_cur(data: tuple):
            f"filter_by({data[0]}={data[1]})"
 
     return temp
+
+
+def dml_sel_text(var: str) -> list:
+    from sqlalchemy.sql import text
+    session = Session(engine)
+    v = text(f'SELECT * FROM employee WHERE employee.date_of_birth = :x')
+    data = session.execute(v, {'x': f'{var}'}).all()
+    session.close()
+
+    return data
+
+
+def dml_sel_text_per(var: dict) -> dict:
+    from sqlalchemy.sql import text
+    session = Session(engine)
+    v = text(f'SELECT * FROM employee WHERE employee.date_of_birth BETWEEN :x AND :y')
+    data = session.execute(v, {'x': f'{var.get("from_date")}',
+                               'y': f'{var.get("to_date")}'}
+                           ).all()
+    session.close()
+    return data

@@ -10,7 +10,6 @@
         <div class="p-3 bg-light">
             <div class="container">
                 <div class="row">
-
                     <div class="col position-relative">
                         <a href="/" type="button"
                            class="btn btn-success position-absolute top-0 start-0 translate-middle">
@@ -23,7 +22,6 @@
                             </svg>
                         </a>
                     </div>
-
                     <div class="col-6 ">
                         <h3 class="display-4"><b>Selected employees</b></h3>
                     </div>
@@ -35,28 +33,41 @@
                                   Search by date
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                  <li><a
-                                          class="dropdown-item"
-                                          href="#"
+                                  <li>
+                                      <a  class="dropdown-item"
                                           data-bs-toggle="modal"
-                                          data-bs-target="#sort_1_empl">
+                                          data-bs-target="#sort_one_day">
                                       Single date
-                                  </a></li>
-                                  <li><a class="dropdown-item" href="#">Date period</a></li>
+                                      </a>
+                                  </li>
+                                  <li>
+                                      <a class="dropdown-item"
+                                         data-bs-toggle="modal"
+                                         data-bs-target="#sort_per">
+                                          Date period
+                                      </a>
+                                  </li>
                                 </ul>
-                              </div>
-                            </div>
-                    <div class="col position-relative"><button type="button" class="btn btn-success position-absolute top-0 start-100 translate-middle" data-bs-toggle="modal" data-bs-target="#mymodal">
-                        Add new {{ title[:-1]|lower }}
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16">
-                            <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
-                        </svg>
-                    </button></div></div></div>
-
+                        </div>
+                    </div>
+                    <div class="col position-relative">
+                        <button type="button"
+                                class="btn btn-success position-absolute top-0 start-100 translate-middle"
+                                data-bs-toggle="modal" data-bs-target="#mymodal">
+                                Add new {{ title[:-1]|lower }}
+                                <svg xmlns="http://www.w3.org/2000/svg"
+                                     width="16" height="16" fill="currentColor"
+                                     class="bi bi-caret-down-fill" viewBox="0 0 16 16">
+                                    <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/>
+                                </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
   </div>
+
 <table class="table table-striped table-primary
 table-bordered border-primary table-hover">
   <thead>
@@ -99,9 +110,11 @@ table-bordered border-primary table-hover">
            <div class="modal-dialog">
                <div class="modal-content">
                    <div class="modal-header">
-                       <h5 class="modal-title" id="exampleModalLabel">Edit {{ title }}</h5>
+                       <h5 class="modal-title"
+                           id="exampleModalLabel">Edit {{ title }}</h5>
                        <button type="button" class="btn-close"
-                               data-bs-dismiss="modal" aria-label="Close"></button>
+                               data-bs-dismiss="modal" aria-label="Close">
+                       </button>
                    </div>
 
                    <div class="modal-body">
@@ -126,14 +139,14 @@ table-bordered border-primary table-hover">
                            <div class="form-group">
                                <label>Surname:</label>
                                <input type="text" class="form-control"
-                                      name="name" required="1"
+                                      name="surname" required="1"
                                       value="{{ data[attr]['surname'] }}">
                            </div>
 
                            <div class="form-group">
                                <label>Birth:</label>
                                <input type="date" class="form-control"
-                                      name="name" required="1"
+                                      name="date_of_birth" required="1"
                                       value="{{ data[attr]['date_of_birth'] }}">
                            </div>
 
@@ -158,25 +171,110 @@ table-bordered border-primary table-hover">
                                    <div class="row">
                                        <div class="col float-start">
                                            <button class="btn btn-primary float-start"
-                                                   type="submit">Edit {{ title[:-1]|lower }}</button>
+                                                   type="submit">Edit {{ title[:-1]|lower }}
+                                           </button>
                                        </div>
                                        <div class="col float-end">
-                                           <button type="button" class="btn btn-secondary float-end" data-bs-dismiss="modal">Close</button>
+                                           <button type="button"
+                                                   class="btn btn-secondary float-end"
+                                                   data-bs-dismiss="modal">Close
+                                           </button>
                                        </div>
                                    </div>
                                </div>
                            </div>
-
                        </form>
-
                    </div>
-
                </div>
            </div>
        </div>
   {% endfor %}
   </tbody>
 </table>
+</div>
+
+<div class="modal fade" id="sort_one_day"
+     tabindex="-1" aria-labelledby="sort_one_dayLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="sort_one_dayLabel">Chose date </h5>
+                <button type="button" class="btn-close"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{url_for('sort_empl')}}" method="GET">
+                    <div class="form-group">
+                        <label>Date:</label>
+                        <input type="date" class="form-control" name="date" required="1">
+                    </div>
+                    <p></p>
+                    <div class="modal-footer-fluid">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col float-start">
+                                    <button class="btn btn-primary float-start"
+                                            type="submit">Select
+                                    </button>
+                                </div>
+                                <div class="col float-end">
+                                    <button type="button"
+                                            class="btn btn-secondary float-end"
+                                            data-bs-dismiss="modal">Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="sort_per"
+     tabindex="-1" aria-labelledby="sort_perLabel"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="sort_perLabel">Chose period </h5>
+                <button type="button" class="btn-close"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{{url_for('sort_empl_per')}}" method="GET">
+                    <div class="form-group">
+                        <label>From date :</label>
+                        <input type="date" class="form-control" name="from_date" required="1">
+                    </div>
+                    <div class="form-group">
+                        <label>To date :</label>
+                        <input type="date" class="form-control" name="to_date" required="1">
+                    </div>
+                    <p></p>
+                    <div class="modal-footer-fluid">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col float-start">
+                                    <button class="btn btn-primary float-start"
+                                            type="submit">Select
+                                    </button>
+                                </div>
+                                <div class="col float-end">
+                                    <button type="button"
+                                            class="btn btn-secondary float-end"
+                                            data-bs-dismiss="modal">Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

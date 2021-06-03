@@ -196,6 +196,11 @@ def correct_date(var):
 
 
 def sort_data_def(db_data: dict) -> dict:
+    """
+    Returns data base data into dict for further convert to json format by Flask
+    :param db_data: dict
+    :return: dict
+    """
     temp1 = None
     if isinstance(db_data, str):
         temp1 = dml_sel_text(db_data)
@@ -221,6 +226,10 @@ def sort_data_def(db_data: dict) -> dict:
 
 @app.route('/sort_empl', methods=['GET'])
 def sort_empl():
+    """
+    Create sorted data for rendering
+    :return: render_template
+    """
     if request.method == 'GET':
         sort_date = correct_date(request.args.get('date'))
         temp = sort_data_def(sort_date)
@@ -230,6 +239,10 @@ def sort_empl():
 
 @app.route('/sort_empl_per', methods=['GET'])
 def sort_empl_per():
+    """
+    Create sorted data for rendering
+    :return: render_template
+    """
     if request.method == 'GET':
         sorted_date = correct_date(request.args.to_dict())
         temp = sort_data_def(sorted_date)

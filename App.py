@@ -1,6 +1,6 @@
 from flask import Flask
 from const import SECRET_KEY
-from flask import request, render_template, redirect, url_for
+from flask import request, render_template, redirect, url_for, flash
 from service.db_service import *
 import decimal
 
@@ -54,6 +54,7 @@ def index_empl(dep_id):
     staff = {}
     for i in staff_temp:
         staff[i[0][0]] = {
+            'id': i[0].id,
             'name': i[0].name,
             'surname': i[0].surname,
             'mid_name': i[0].mid_name,
@@ -136,16 +137,15 @@ def update():
         return redirect(url_for('index'))
 
 
-@app.route('/update_empl', methods=['GET', 'POST'])
-def update_empl():
+@app.route('/update_empl/<id>', methods=['GET', 'POST'])
+def update_empl(id):
     """
     This is update route where we are going
     to update employee
     :return:  redirect to changed department employees
     """
     if request.method == 'POST':
-        temp_id = request.form.get('related_department')
-        condition = ('id', request.form.get('id'))
+        condition = ('id', id)
         checked_data = dml_select_Empl_cur(condition)[0][0].__dict__
         for attr in checked_data:
             temp = request.form.get(attr)
@@ -169,15 +169,21 @@ def delete_item(id):
     return redirect(url_for('index'))
 
 
-@app.route('/delete_empl/<id>/<dep_item>', methods=['GET', 'POST'])
-def delete_person(id, dep_item):
+@app.route('/delete_empl/<id>', methods=['GET', 'POST'])
+def delete_person(id):
     """
     This route is for deleting current employee
     :param id: employee.id
     :param dep_item: auxiliary parameter for redirect
     :return:  redirect to the main page
     """
-    dml_delete_Empl(('id', id))
+    condition = ('id', id)
+    try:
+        dep_item = dml_select_Empl_cur(condition)[0][0].related_department
+        dml_delete_Empl(condition)
+    except IndexError:
+        flash('No data')
+        return redirect(url_for('index'))
 
     return redirect(url_for('index_empl', dep_id=dep_item))
 
@@ -186,7 +192,7 @@ def correct_date(var):
     """
     Remove leading zeros
     :param var: str or tuple
-    :return: str or tuple without leading zeros in decimal integer literals
+    :return: str or dict without leading zeros in decimal integer literals
     """
     if isinstance(var, str):
         return '-'.join(tuple(map(str, tuple(map(int, var.split('-'))))))
@@ -208,8 +214,7 @@ def sort_data_def(db_data: dict) -> dict:
         temp1 = dml_sel_text_per(db_data)
     temp = {}
     for j, i in enumerate(temp1):
-        temp = {j:
-            {
+        temp[j] = {
                 'id': i[0],
                 'name': i[1],
                 'surname': i[2],
@@ -219,7 +224,6 @@ def sort_data_def(db_data: dict) -> dict:
                 'related_department': i[6],
                 'dep_name': dml_select_Dep_cur(('id', str(i[6])))[0][0].name
             }
-        }
 
     return temp
 
@@ -247,7 +251,8 @@ def sort_empl_per():
         sorted_date = correct_date(request.args.to_dict())
         temp = sort_data_def(sorted_date)
 
-        return render_template('employ/index_empl.html', title='Employees', data=temp)
+        return render_template('employ/index_empl.html',
+                               title='Employees', data=temp)
 
 
 if __name__ == '__main__':

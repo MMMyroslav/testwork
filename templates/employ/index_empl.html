@@ -93,17 +93,17 @@ table-bordered border-primary table-hover">
         <td>{{ data[attr]['salary'] }}</td>
         <td>{{ data[attr]['dep_name'] }}</td>
         <td>
-            <a href="update/{{ attr }}"
+            <a href="update/{{ data[attr]['id'] }}"
                class="btn btn-warning btn-xs"
                data-bs-toggle="modal"
-               data-bs-target="#edit_empl{{ attr }}">Edit</a>
-            <a href="/delete_empl/{{ attr }}/{{ data[attr]['related_department'] }}"
+               data-bs-target="#edit_empl{{ data[attr]['id'] }}">Edit</a>
+            <a href="/delete_empl/{{ data[attr]['id'] }}"
                class="btn btn-danger btn-xs"
                onclick="return confirm('Are You Sure To Delete ?')">Delete</a>
         </td>
     </tr>
        <div class="modal fade"
-            id="edit_empl{{ attr }}"
+            id="edit_empl{{ data[attr]['id'] }}"
             tabindex="-1"
             aria-labelledby="exampleModalLabel"
             aria-hidden="true">
@@ -118,12 +118,13 @@ table-bordered border-primary table-hover">
                    </div>
 
                    <div class="modal-body">
-                       <form action="{{ url_for('update_empl') }}"
+                       <form action="{{ url_for('update_empl', id=data[attr]['id']) }}"
                              method="POST">
 
                            <div class="form-group">
                                <label>Name:</label>
-                               <input type="hidden" name="id" value="{{ attr }}">
+                               <input type="hidden" name="id"
+                                      value="{{ data[attr]['id'] }}">
                                <input type="text" class="form-control"
                                       name="name" required="1"
                                       value="{{ data[attr]['name'] }}">

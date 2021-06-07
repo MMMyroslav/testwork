@@ -59,7 +59,7 @@ def start():
     init_db()
     fill_dep()
     fill(100)
-
+# start()
 # start()
 # session = Session(engine)
 # from sqlalchemy.orm import Bundle
@@ -93,16 +93,18 @@ def start():
 
 
 # print(data)
-
-
-def correct_date(var):
-    if isinstance(var, str):
-        return '-'.join(tuple(map(str, tuple(map(int, var.split('-'))))))
-    for i in var:
-        var[i] = correct_date(var[i])
-    return var
-
-
+# import decimal
+# def correct_date(var):
+#     if isinstance(var, str):
+#         return '-'.join(tuple(map(str, tuple(map(int, var.split('-'))))))
+#     for i in var:
+#         var[i] = correct_date(var[i])
+#     return var
+# d = 100
+# voda = 99
+# vtrata = 98
+# vechir = decimal.Decimal(voda*vtrata/100 + 1)
+# print(vechir)
 
 # # d = dml_sel_text_per(qwer)
 # print(qwer)
@@ -118,6 +120,21 @@ def correct_date(var):
 # werq = dml_sel_text_per(qwer)
 # pprint(werq)
 
+# rer = dml_sel_text_per({'from_date': '1900-01-10', 'to_date': '2022-02-02'})
 
-rer = dml_select_Dep_cur(('id','1'))[0][0].name
-print(rer)
+# condition = ('id', '4')
+# rer = dml_select_Empl_cur(condition)
+# pprint(rer[0][0].__dict__)
+staff_temp = dml_select_Empl_all(1)
+staff = {}
+for i in staff_temp:
+        staff[i[0][0]] = {
+            'name': i[0].name,
+            'surname': i[0].surname,
+            'mid_name': i[0].mid_name,
+            'date_of_birth': i[0].date_of_birth,
+            'salary': i[0].salary,
+            'related_department': i[0].related_department,
+            'dep_name': i[1].name_1
+        }
+pprint(staff[6])

@@ -3,9 +3,13 @@ from const import SECRET_KEY
 from flask import request, render_template, redirect, url_for, flash
 from service.db_service import *
 import decimal
+from flask_uuid import FlaskUUID
+
 
 app = Flask(__name__)
 app.secret_key = SECRET_KEY
+flask_uuid = FlaskUUID()
+flask_uuid.init_app(app)
 
 
 def average_sal_count(ind):

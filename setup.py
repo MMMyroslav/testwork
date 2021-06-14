@@ -7,9 +7,19 @@ from datetime import date
 from sqlalchemy import select
 from pprint import pprint
 from service.db_service import *
+import random
+from uuid import uuid4
+
+
+def uuid_format(data):
+    return ''.join(str(uuid4()).split('-'))
 
 
 def fill(n):
+    d = dml_select_Dep_all()
+    res_id = []
+    for i in d:
+        res_id.append(i.id)
 
     f_name = ['Ivan', 'Taras', 'Nazar', 'Andriy', 'Bogdan', 'Mykhailo', 'Klym', 'Volodymyr',
               'Myroslav', 'Igor', 'Oleksandr', 'Victor',
@@ -31,12 +41,13 @@ def fill(n):
 
     for i in range(n):
         res.append(Employee(
+            id=uuid_format(uuid4()),
             name=f_name[randint(0, len(f_name)-1)],
             surname=res1[randint(0, len(res1)-1)],
             mid_name=f_name[randint(0, len(f_name)-1)]+'ovich',
             date_of_birth=date(randint(1975, 2002),randint(1,12), randint(1,28)),
             salary=randint(1800, 5200),
-            related_department=randint(1,8)))
+            related_department=random.choice(res_id)))
 
     session = Session(engine)
     session.add_all(res)
@@ -49,7 +60,7 @@ def fill_dep():
     res = []
 
     for i in temp:
-        res.append(Department(name=f'{i}'))
+        res.append(Department(id=uuid_format(uuid4()), name=f'{i}'))
     session = Session(engine)
     session.add_all(res)
     session.commit()
@@ -59,7 +70,10 @@ def start():
     init_db()
     fill_dep()
     fill(100)
-# start()
+
+
+start()
+
 # start()
 # session = Session(engine)
 # from sqlalchemy.orm import Bundle
@@ -125,16 +139,19 @@ def start():
 # condition = ('id', '4')
 # rer = dml_select_Empl_cur(condition)
 # pprint(rer[0][0].__dict__)
-staff_temp = dml_select_Empl_all(1)
-staff = {}
-for i in staff_temp:
-        staff[i[0][0]] = {
-            'name': i[0].name,
-            'surname': i[0].surname,
-            'mid_name': i[0].mid_name,
-            'date_of_birth': i[0].date_of_birth,
-            'salary': i[0].salary,
-            'related_department': i[0].related_department,
-            'dep_name': i[1].name_1
-        }
-pprint(staff[6])
+# staff_temp = dml_select_Empl_all(1)
+# staff = {}
+# for i in staff_temp:
+#         staff[i[0][0]] = {
+#             'name': i[0].name,
+#             'surname': i[0].surname,
+#             'mid_name': i[0].mid_name,
+#             'date_of_birth': i[0].date_of_birth,
+#             'salary': i[0].salary,
+#             'related_department': i[0].related_department,
+#             'dep_name': i[1].name_1
+#         }
+# pprint(staff[6])
+
+# qwe = dml_select_Empl_all('d57009a9-1ce4-45ce-93af-a5dfb536ea8a')
+# pprint(qwe)

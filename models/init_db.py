@@ -6,7 +6,7 @@ from const import SQL_ALCHEMY_DB_URL
 
 
 engine = create_engine(SQL_ALCHEMY_DB_URL,
-                       echo=False,
+                       echo=True,
                        pool_pre_ping=True)
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,

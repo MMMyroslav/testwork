@@ -9,10 +9,11 @@ class MetaFields:
     Base class
     """
 
-    id = Column(Integer, primary_key=True)
+    id = Column(String(50), primary_key=True, unique=True)
     name = Column(String(30), nullable=False, unique=True)
 
-    def __init__(self, name):
+    def __init__(self, id, name):
+        self.id = id
         self.name = name
 
     def __str__(self):
@@ -30,12 +31,12 @@ class Employee(MetaFields, Base):
     mid_name = Column(String(30), nullable=True)
     date_of_birth = Column(Date, nullable=False)
     salary = Column(DECIMAL, nullable=False)
-    related_department = Column(Integer, ForeignKey('department.id'))
+    related_department = Column(String(50), ForeignKey('department.id'))
     department = relationship('Department')
 
-    def __init__(self, name, surname, mid_name,
+    def __init__(self, id, name, surname, mid_name,
                  date_of_birth, salary, related_department):
-        super().__init__(name)
+        super().__init__(id, name)
 
         self.surname = surname
         self.mid_name = mid_name

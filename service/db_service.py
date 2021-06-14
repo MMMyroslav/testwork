@@ -2,6 +2,11 @@ from models.init_db import engine
 from models.model import *
 from sqlalchemy.orm import Session
 from datetime import date
+from uuid import uuid4
+
+
+def uuid_format(data):
+    return ''.join(str(uuid4()).split('-'))
 
 
 def create_Session_one(func):
@@ -65,7 +70,8 @@ def create_Session_del(func):
 def dml_insert_Empl(name, surname, mid_name,
                     date_of_birth: tuple, salary: float,
                     related_department: int):
-    data = Employee(name=name,
+    data = Employee(id=uuid_format(uuid4()),
+                    name=name,
                     surname=surname,
                     mid_name=mid_name,
                     date_of_birth=date(*date_of_birth),
@@ -77,7 +83,9 @@ def dml_insert_Empl(name, surname, mid_name,
 
 @create_Session_one
 def dml_insert_Dep(name):
-    data = Department(name=name)
+    data = Department(id=uuid_format(uuid4()),
+                      name=name
+                      )
 
     return data
 
@@ -119,7 +127,7 @@ def dml_update_Empl(param_where: tuple, new_val: tuple):
 @create_Session_upd
 def dml_update_Dep(param_where: tuple, new_val: tuple):
     temp = f"update(Department)." \
-           f"where(Department.{param_where[0]} == {param_where[1]})." \
+           f"where(Department.{param_where[0]} == {param_where[1]!r})." \
            "values({" + f"{new_val[0]!r}" + ": " + f"{new_val[1]!r}" + \
            "}" + ")"
 
@@ -137,7 +145,7 @@ def dml_delete_Empl(param_where: tuple):
 @create_Session_del
 def dml_delete_Dep(param_where):
     temp = "delete(Department)." \
-           f"where(Department.id == {param_where})"
+           f"where(Department.id == {param_where!r})"
 
     return temp
 
@@ -158,7 +166,7 @@ def dml_select_Empl_all(id):
            "Employee.date_of_birth, Employee.salary, " \
            "Employee.related_department)," \
            "Bundle(\'department\', Department.name))." \
-           f"where(Employee.related_department == {id})." \
+           f"where(Employee.related_department == {id!r})." \
            'join_from(Employee, Department)'
 
     return temp
@@ -168,7 +176,7 @@ def dml_select_Empl_all(id):
 def dml_select_Empl_all_sal(id):
     temp = "select(" \
            "Employee.salary)." \
-           f"where(Employee.related_department == {id})"
+           f"where(Employee.related_department == {id!r})"
 
     return temp
 
@@ -176,7 +184,7 @@ def dml_select_Empl_all_sal(id):
 @create_Session_sel
 def dml_select_Empl_cur(data: tuple):
     temp = "select(Employee)." \
-           f"filter_by({data[0]}={data[1]})"
+           f"filter_by({data[0]}={data[1]!r})"
 
     return temp
 
@@ -184,7 +192,7 @@ def dml_select_Empl_cur(data: tuple):
 @create_Session_sel
 def dml_select_Dep_cur(data: tuple):
     temp = "select(Department)." \
-           f"filter_by({data[0]}={data[1]})"
+           f"filter_by({data[0]}={data[1]!r})"
 
     return temp
 

@@ -72,7 +72,7 @@ def start():
     fill(100)
 
 
-start()
+# start()
 
 # start()
 # session = Session(engine)

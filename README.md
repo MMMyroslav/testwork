@@ -1,8 +1,7 @@
-# testwork
+# Testwork
 Web-application allows users to wiev information about departments and employees.
 
-Application provide:
-
+Application provide:<br>
 - Display list of employees of current department
 
 - Display a list of departments and the average salary for these departments

@@ -1,7 +1,7 @@
 # testwork
 Web-application allows users to wiev information about departments and employees.
 
-Application should provide:
+Application provide:
 
 - Display list of employees of current department
 

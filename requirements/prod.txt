@@ -2,7 +2,8 @@
 Flask == 2.0.1
 Flask-Migrate == 3.0.1
 Flask-SQLAlchemy == 2.5.1
-Flask-UUID == 0.2inja2 == 3.0.1
+Flask-UUID == 0.2
+jinja2 == 3.0.1
 Mako == 1.1.4
 MarkupSafe == 2.0.1
 PyMySQL == 1.0.2

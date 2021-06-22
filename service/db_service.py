@@ -119,7 +119,7 @@ def dml_update_Empl(param_where: tuple, new_val: tuple):
     temp = "update(Employee)." \
            f"where(Employee.{param_where[0]} == {param_where[1]!r})." \
            "values({" + f"{new_val[0]!r}" + ": " + f"{new_val[1]!r}" + \
-           "}" + ")"
+           "})"
 
     return temp
 
@@ -143,9 +143,9 @@ def dml_delete_Empl(param_where: tuple):
 
 
 @create_Session_del
-def dml_delete_Dep(param_where):
+def dml_delete_Dep(param_where: tuple):
     temp = "delete(Department)." \
-           f"where(Department.id == {param_where!r})"
+           f"where(Department.{param_where[0]} == {param_where[1]!r})"
 
     return temp
 

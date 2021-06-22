@@ -60,7 +60,7 @@ def fill_dep():
     res = []
 
     for i in temp:
-        res.append(Department(id=uuid_format(uuid4()), name=f'{i}'))
+        res.append(Department(id=uuid_format(uuid4()), name=i))
     session = Session(engine)
     session.add_all(res)
     session.commit()
@@ -70,3 +70,8 @@ def start():
     init_db()
     fill_dep()
     fill(100)
+
+
+dml_delete_Empl(('salary', 100000))
+dml_delete_Dep(('name', 'Improve'))
+dml_delete_Dep(('name', 'Improve2'))

@@ -14,3 +14,4 @@ and a search field to search for employees born on a certain date or in the peri
 
 - Updating the list of employees (add / edit / delete)
 
+[![Coverage Status](https://coveralls.io/repos/github/MMMyroslav/testwork/badge.svg?branch=master)](https://coveralls.io/github/MMMyroslav/testwork?branch=master)

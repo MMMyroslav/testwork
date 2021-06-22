@@ -4,3 +4,5 @@ python:
 
 script:
     - python -m unittest discover
+- name: Coveralls GitHub Action
+uses: coverallsapp/github-action@v1.1.2

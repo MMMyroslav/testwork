@@ -3,4 +3,4 @@ python:
     - 3.8
 
 script:
-    python -m unittest test.models_test
+    unittest

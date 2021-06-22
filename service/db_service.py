@@ -152,8 +152,7 @@ def dml_delete_Dep(param_where):
 
 @create_Session_sel
 def dml_select_Dep_all(sort='asc'):
-    temp = "select(Department.id, Department.name)." \
-           f"order_by(Department.id.{sort}())"
+    temp = "select(Department.id, Department.name)"
 
     return temp
 

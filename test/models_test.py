@@ -164,7 +164,6 @@ class DepTest(unittest.TestCase):
         :return:
         """
         temp = db.dml_select_Dep_cur(('id', self.temp_dep.id))
-        print('sel', self.temp_dep)
         self.assertEqual(len(temp), 1)
         self.assertEqual(str(type(temp[0])), EmplTest.const_type)
         self.assertTrue(temp[0][0].name)

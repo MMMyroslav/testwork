@@ -35,3 +35,5 @@ idna == 2.10
 python-coveralls == 2.9.3
 requests == 2.25.1
 urllib3 == 1.26.5
+coveralls == 3.1.0
+docopt == 0.6.2

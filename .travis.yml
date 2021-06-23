@@ -1,7 +1,15 @@
 language: python
 python:
-    - 3.8
-
+  - "3.8"
+install:
+  - pip install -e . --use-mirrors
+before_script:
+  - pip install -r requirements.txt --use-mirrors
+  - cd python-coveralls-example
+  - py.test test/models_test.py --cov=example
+  - cd -
 script:
-    - pytest
+  - py.test coveralls/tests.py --doctest-modules --pep8 coveralls -v --cov coveralls --cov-report term-missing
+after_success:
+  - coveralls
 
